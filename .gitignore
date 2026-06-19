@@ -221,3 +221,14 @@ __marimo__/
 # Enterprise env file (secrets) and generated run reports
 .env.enterprise
 reports/
+
+# Local app/runtime artifacts
+.local-logs/
+web/node_modules/
+web/dist/
+web/tsconfig*.tsbuildinfo
+web/tailwind.config.d.ts
+web/tailwind.config.js
+web/vite.config.d.ts
+web/vite.config.js
+FinceptTerminal/*

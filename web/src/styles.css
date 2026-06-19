@@ -1,0 +1,362 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #e7ecf7;
+  background-color: #080b14;
+  background-image:
+    radial-gradient(900px 500px at 12% -8%, rgba(245, 182, 66, 0.1), transparent 60%),
+    radial-gradient(820px 520px at 100% 0%, rgba(86, 168, 255, 0.1), transparent 55%),
+    radial-gradient(760px 600px at 50% 120%, rgba(155, 140, 255, 0.08), transparent 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular figures everywhere numbers live */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+::selection {
+  background: rgba(245, 182, 66, 0.28);
+  color: #fff;
+}
+
+/* Scrollbars tuned for the dark surface */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #28344f transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #233052;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #2f3f66;
+  background-clip: content-box;
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-fg-faint;
+  }
+
+  .shell {
+    @apply min-h-screen bg-grid-faint;
+    background-size: 44px 44px;
+  }
+
+  /* Navigation -------------------------------------------------------- */
+  .nav-item {
+    @apply relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-fg-muted transition;
+  }
+  .nav-item:hover {
+    @apply bg-white/[0.04] text-fg;
+  }
+  .nav-item-active {
+    @apply bg-white/[0.05] text-fg;
+  }
+  .nav-item-active::before {
+    content: "";
+    @apply absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-full bg-brass;
+    box-shadow: 0 0 12px rgba(245, 182, 66, 0.7);
+  }
+
+  .mobile-nav {
+    @apply rounded-lg border border-line/70 bg-ink-700/60 px-2 py-2 text-xs font-medium text-fg-muted transition;
+  }
+  .mobile-nav-active {
+    @apply border-brass/50 bg-brass/10 text-brass;
+  }
+
+  /* Surfaces ---------------------------------------------------------- */
+  .panel {
+    @apply rounded-2xl border border-line/70 bg-ink-700/70 p-5 shadow-panel backdrop-blur-sm;
+  }
+  .panel-tight {
+    @apply rounded-2xl border border-line/70 bg-ink-700/70 shadow-panel backdrop-blur-sm;
+  }
+  .panel-title {
+    @apply mb-4 flex items-center justify-between gap-3 font-display text-base font-semibold text-fg;
+  }
+
+  .card {
+    @apply rounded-xl border border-line/60 bg-ink-600/50 p-4;
+  }
+
+  /* KPI tiles --------------------------------------------------------- */
+  .kpi {
+    @apply relative overflow-hidden rounded-2xl border border-line/70 bg-ink-700/70 p-4 shadow-panel transition duration-300;
+  }
+  .kpi:hover {
+    @apply border-line-strong/80 -translate-y-0.5;
+  }
+  .kpi-value {
+    @apply font-mono text-3xl font-semibold tracking-tight text-fg tnum;
+  }
+  .kpi-label {
+    @apply mt-0.5 text-xs font-medium uppercase tracking-wide text-fg-faint;
+  }
+
+  /* Buttons ----------------------------------------------------------- */
+  .btn {
+    @apply inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-line/80 bg-white/[0.03] px-3 text-sm font-medium text-fg-muted transition hover:border-line-strong hover:bg-white/[0.06] hover:text-fg disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-brass/40 bg-brass-sheen px-3.5 text-sm font-semibold text-ink-900 shadow-brass transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex h-8 items-center justify-center gap-1.5 rounded-md px-2 text-xs font-medium text-fg-muted transition hover:bg-white/[0.05] hover:text-fg;
+  }
+
+  /* Forms ------------------------------------------------------------- */
+  .field {
+    @apply grid gap-1.5 text-sm font-medium text-fg-muted;
+  }
+  .input {
+    @apply h-10 w-full rounded-lg border border-line/80 bg-ink-800/80 px-3 text-sm text-fg outline-none transition placeholder:text-fg-faint focus:border-brass/60 focus:ring-2 focus:ring-brass/[0.15];
+  }
+  select.input option {
+    background-color: #0e1322;
+    color: #e7ecf7;
+  }
+  .section-label {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-fg-faint;
+  }
+  .check-row,
+  .toggle-row {
+    @apply flex min-h-10 cursor-pointer items-center gap-2.5 rounded-lg border border-line/60 bg-ink-800/60 px-3 text-sm text-fg-muted transition hover:border-line-strong/80 hover:text-fg;
+  }
+  .check-row input,
+  .toggle-row input {
+    @apply h-4 w-4 accent-brass;
+  }
+
+  /* Status + ratings -------------------------------------------------- */
+  .status-badge {
+    @apply inline-flex h-6 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-semibold uppercase tracking-wide;
+  }
+  .status-pending {
+    @apply border-line/70 bg-white/[0.03] text-fg-faint;
+  }
+  .status-running,
+  .status-in_progress {
+    @apply border-azure/40 bg-azure/10 text-azure;
+  }
+  .status-completed {
+    @apply border-bull/40 bg-bull/10 text-bull;
+  }
+  .status-error {
+    @apply border-bear/40 bg-bear/10 text-bear;
+  }
+
+  .rating-pill {
+    @apply inline-flex h-7 items-center gap-1.5 rounded-full border px-3 font-mono text-xs font-semibold uppercase tracking-wide;
+  }
+  .rating-buy {
+    @apply border-bull/[0.45] bg-bull/[0.12] text-bull-bright;
+  }
+  .rating-overweight {
+    @apply border-[#7FD957]/[0.45] bg-[#7FD957]/[0.12] text-[#9be072];
+  }
+  .rating-hold {
+    @apply border-brass/[0.45] bg-brass/[0.12] text-brass-bright;
+  }
+  .rating-underweight {
+    @apply border-[#FB9A4B]/[0.45] bg-[#FB9A4B]/[0.12] text-[#ffb066];
+  }
+  .rating-sell {
+    @apply border-bear/[0.45] bg-bear/[0.12] text-bear-bright;
+  }
+  .rating-na {
+    @apply border-line/70 bg-white/[0.03] text-fg-faint;
+  }
+
+  /* Tables ------------------------------------------------------------ */
+  .data-table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+  .data-table th {
+    @apply border-b border-line/70 px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-fg-faint;
+  }
+  .data-table td {
+    @apply border-b border-line/40 px-3 py-3 text-fg-muted;
+  }
+  .data-table tbody tr {
+    @apply transition;
+  }
+  .data-table tbody tr:hover td {
+    @apply bg-white/[0.025] text-fg;
+  }
+
+  /* Agent pipeline ---------------------------------------------------- */
+  .agent-row {
+    @apply flex items-center justify-between gap-3 rounded-lg border border-line/50 bg-ink-800/50 px-3 py-2 text-sm text-fg-muted transition;
+  }
+  .agent-row[data-status="in_progress"] {
+    @apply border-azure/40 bg-azure/[0.06] text-fg;
+  }
+  .agent-row[data-status="completed"] {
+    @apply border-bull/30 bg-bull/[0.05];
+  }
+
+  /* Streaming log ----------------------------------------------------- */
+  .log-pane {
+    @apply max-h-[22rem] overflow-auto rounded-xl border border-line/70 bg-ink-900/80 p-3 font-mono text-xs leading-relaxed text-fg-muted;
+  }
+  .log-row {
+    @apply grid grid-cols-[68px_64px_1fr] items-start gap-3 border-b border-white/[0.04] py-1.5 last:border-0;
+  }
+
+  /* Reports list ------------------------------------------------------ */
+  .report-row {
+    @apply grid w-full grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 rounded-xl border border-line/60 bg-ink-800/50 p-3 text-left transition hover:border-line-strong/80 hover:bg-white/[0.03];
+  }
+  .report-row-active {
+    @apply border-brass/50 bg-brass/[0.08];
+  }
+
+  /* Tabs -------------------------------------------------------------- */
+  .tabs {
+    @apply flex flex-wrap gap-1.5 border-b border-line/60 pb-3;
+  }
+  .tab {
+    @apply rounded-lg border border-transparent px-3 py-1.5 text-sm font-medium text-fg-muted transition hover:bg-white/[0.05] hover:text-fg;
+  }
+  .tab-active {
+    @apply border-brass/40 bg-brass/10 text-brass-bright;
+  }
+
+  /* Misc -------------------------------------------------------------- */
+  .provider-card {
+    @apply rounded-xl border border-line/60 bg-ink-800/50 p-4 transition hover:border-line-strong/70;
+  }
+  .terminal-shell {
+    @apply h-[560px] overflow-hidden rounded-xl border border-line/70 bg-ink-900/90 p-2 shadow-panel;
+  }
+  .chip {
+    @apply inline-flex h-7 items-center rounded-full border border-line/70 bg-ink-800/70 px-2.5 font-mono text-xs text-fg-muted transition hover:border-brass/50 hover:text-brass;
+  }
+  .error-box {
+    @apply rounded-xl border border-bear/40 bg-bear/[0.08] p-3 text-sm text-bear-bright;
+  }
+  .empty-state {
+    @apply grid min-h-72 place-items-center rounded-xl border border-dashed border-line/60 text-sm text-fg-faint;
+  }
+}
+
+/* Markdown on dark ---------------------------------------------------- */
+.markdown {
+  line-height: 1.7;
+  color: #c2cce0;
+  font-size: 0.925rem;
+}
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin: 1.3rem 0 0.6rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  color: #eef2fb;
+  line-height: 1.3;
+}
+.markdown h1 {
+  font-size: 1.4rem;
+}
+.markdown h2 {
+  font-size: 1.15rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(44, 60, 96, 0.5);
+}
+.markdown h3 {
+  font-size: 1rem;
+  color: #f5b642;
+}
+.markdown p,
+.markdown ul,
+.markdown ol {
+  margin: 0.6rem 0;
+}
+.markdown ul,
+.markdown ol {
+  padding-left: 1.2rem;
+}
+.markdown li {
+  margin: 0.25rem 0;
+}
+.markdown li::marker {
+  color: #56a8ff;
+}
+.markdown a {
+  color: #56a8ff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown strong {
+  color: #eef2fb;
+  font-weight: 600;
+}
+.markdown code {
+  border-radius: 5px;
+  background: rgba(86, 168, 255, 0.12);
+  padding: 0.1rem 0.32rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  color: #cfe0ff;
+}
+.markdown blockquote {
+  margin: 0.7rem 0;
+  border-left: 3px solid rgba(245, 182, 66, 0.6);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  color: #aebbd6;
+}
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.7rem 0;
+  font-size: 0.85rem;
+}
+.markdown th,
+.markdown td {
+  border: 1px solid rgba(44, 60, 96, 0.6);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+}
+.markdown th {
+  background: rgba(255, 255, 255, 0.03);
+  color: #cdd7ea;
+}
+.markdown hr {
+  border: 0;
+  border-top: 1px solid rgba(44, 60, 96, 0.6);
+  margin: 1.1rem 0;
+}
+.markdown-compact {
+  max-height: 280px;
+  overflow: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
